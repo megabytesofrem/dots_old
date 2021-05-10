@@ -1,0 +1,110 @@
+#+TITLE: Emacs Config
+#+AUTHOR: bimorphism
+#+DATE: 09/05/2021
+ 
+* Preamble
+  I am *still* very new to Emacs, so my config files may not be perfect and may not be pretty.
+  However I intend to learn, so if any skilled Elispers/Emacs users want to correct/improve on my wrongdoings, please feel free.
+
+* Initialization
+  Initialize MELPA to manage packages for Emacs.
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/"))
+
+  (package-initialize)
+#+END_SRC
+
+  Start *elcord* which provides Discord integration to flex on IDE users.
+#+BEGIN_SRC emacs-lisp
+  (elcord-mode)
+#+END_SRC
+  
+* Keybindings
+  Setup some keybindings that make my life easier. For managing windows/splits/buffers I'm using the plugin
+  ~ace_window~.
+
+  Bind ~M-o~ to ~ace_window~ to automatically navigate between the active buffers.
+  Rebind ~C-x k~ to ~'delete-window~ since the default mapping IIRC was confusing to me.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-o") 'ace-window)
+  (global-set-key (kbd "C-x k") 'delete-window)
+#+END_SRC
+
+* Indent with spaces *not* tabs!
+  Set the default indentation mode to indent with 4 spaces *instead* of 8 tabs which is the default.
+  Without this, other editors were getting confused and interpreting a mix of tabs/spaces.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (setq tab-stop-list '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
+#+END_SRC
+
+* Languages
+
+** C style hook
+   Indent C/C++ properly and set the style to K&R (without tabs). See above if you want to know why I disable
+   tab based indentation.
+   
+#+BEGIN_SRC emacs-lisp
+  (c-add-style "c-style"
+               '("k&r"
+                 (indent-tabs-mode . f)
+                 (c-basic-offset . 4)))
+  (defun bi/c-hook ()
+    (c-set-style "c-style")
+    (auto-fill-mode))
+
+  (add-hook 'c-mode-hook 'bi/c-hook)
+#+END_SRC
+
+** Java-mode hook
+   I don't use Java (I *massively* dislike the language) but the syntax is similar to C so
+   I modified the C hook to make it work with Java.
+
+#+BEGIN_SRC emacs-lisp
+  (defun bi/java-hook ()
+    (setq c-basic-offset 4
+          tab-width 4
+          indent-tabs-mode nil))
+
+  ;; Add the hook to java-mode
+  (add-hook 'java-mode-hook 'bi/java-hook)
+#+END_SRC
+
+** Haskell (provided with haskell-mode)
+   Use ~haskell-mode~ for editing Haskell code and bind ~C-c C-c~ to run ~'haskell-compile~.
+   ~eval-after-load~ is used here so this will only execute in the specific mode(s).
+   
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "haskell-mode"
+    ;; i have no idea what this does really but its part of haskell-mode
+    '(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-compile))
+#+END_SRC
+
+** LaTeX (Auctex)
+#+BEGIN_SRC emacs-lisp
+  (use-package tex
+    :config
+    (setq TeX-auto-save t)
+    (setq TeX-parse-self t)
+    (setq latex-run-command "pdflatex"))
+
+  (defun bi/tex-compile-hack ()
+    "Execute the build.sh script in a folder to compile a LaTeX project"
+    "But this is horrible, seriously don't do this -- its only temporary"
+    (interactive)
+
+    ;; this would work without the push/popd but the issue is the tex file could be nested
+    ;; and not able to get the build.sh fild path, there has to be a better way of doing it though
+    (shell-command "pushd ~/Documents/haskell && bash build.sh && popd"))
+#+END_SRC
+
+   Bind the horrible hack to the key ~C-c C-k~.
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load 'latex
+    '(define-key LaTeX-mode-map (kbd "C-c C-k" 'bi/tex-compile)))
+#+END_SRC
+

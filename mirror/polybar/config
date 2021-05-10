@@ -1,0 +1,43 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+   ;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+# Background and background alt color
+#background = #1c1e26
+background = #000000
+background-alt = #fff
+
+# Foreground and foreground alt color
+foreground = #fff
+foreground-alt = #fff
+
+# Primary, secondary, etc colors
+primary = #a86ec9
+secondary = #a86ec9
+alert = #a86ec9
+
+[section/base]
+include-file = /home/char/.config/polybar/bar
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false

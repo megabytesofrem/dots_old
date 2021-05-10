@@ -1,0 +1,7 @@
+# sync the i3 config files
+i3=$HOME/.config/i3
+
+rofi=$HOME/.config/rofi
+.emacs.d=$HOME/.emacs.d
+.xmonad=$HOME/.xmonad
+polybar=$HOME/.config/polybar

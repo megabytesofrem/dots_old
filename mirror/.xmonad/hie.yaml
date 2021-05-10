@@ -1,0 +1,34 @@
+cradle:
+  stack:
+    - path: "git/xmobar-git/src"
+      component: "xmobar:lib"
+
+    - path: "git/xmobar-git/app/Main.hs"
+      component: "xmobar:exe:xmobar"
+
+    - path: "git/xmobar-git/src"
+      component: "xmobar:test:XmobarTest"
+
+    - path: "git/xmobar-git/test"
+      component: "xmobar:test:XmobarTest"
+
+    - path: "git/xmobar-git/bench/main.hs"
+      component: "xmobar:bench:xmobarbench"
+
+    - path: "git/xmonad-contrib-git/./"
+      component: "xmonad-contrib:lib"
+
+    - path: "git/xmonad-contrib-git/tests"
+      component: "xmonad-contrib:test:tests"
+
+    - path: "git/xmonad-contrib-git/."
+      component: "xmonad-contrib:test:tests"
+
+    - path: "git/xmonad-git/src"
+      component: "xmonad:lib"
+
+    - path: "git/xmonad-git/./Main.hs"
+      component: "xmonad:exe:xmonad"
+
+    - path: "git/xmonad-git/tests"
+      component: "xmonad:test:properties"
